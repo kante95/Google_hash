@@ -15,12 +15,8 @@ def weight(tags1, tags2):
             counter += 1
     
     w = min([counter, len(tags1)-counter, len(tags2)-counter])
-    if(w is not 0):
-        m = 1./w * 10000
-    else:
-        m = 9999999999
     
-    return int(m)
+    return w
 
 def build_slides(input):
     file = open(input)
@@ -63,7 +59,51 @@ def build_slides(input):
         slides.append([len(tags), tags, 2, [i, i+1]])
     return slides
 
-s = build_slides("c_memorable_moments.txt")
+s = build_slides("a_example.txt")
+nodes = []
+
+counter = 0
+for i in s:
+    counter += 1
+    i.append(counter)
+    nodes.append(i)
+    
+print(nodes)
+
 path = []
+
 start = random.randrange(len(s))
-path.append(start)
+path.append(nodes[start][3])
+del(nodes[start])
+
+sum_weights = 0
+sample_size = 100
+
+while(True):
+    weights = []
+    
+    if(len(nodes) > 2*sample_size):
+        l = random.sample(nodes, sample_size)
+    
+    for i in range(len(l)):
+        w = weight(s[start][1], l[i][1])
+        weights.append([w, l[i][3]])
+        
+    if len(weights) is 0:
+        break
+    
+    largest = -1
+    largest_index = 0
+    for i in range(len(weights)):
+        if weights[i][0] > largest:
+            largest = weights[i][0]
+            largest_index = weights[i][1]
+    
+    start = largest_index
+    path.append(nodes[start][3])
+    del(nodes[start])
+    sum_weights += largest
+    print(len(nodes))
+    
+print(path)
+print(sum_weights)
