@@ -23,14 +23,14 @@ def weight(tags1, tags2):
     return int(m)
 
 def build_slides(input):
-    file = open("a_example.txt")
+    file = open("c_memorable_moments.txt")
     
     # slides[0] = number of tags
     # slides[1] = tags
     # slides[2] = number of images
     # slides[3] = image ids
     
-    h_images = []
+    slides = []
     v_images = []
     
     counter = 0
@@ -47,30 +47,42 @@ def build_slides(input):
         attributes[2] = attributes[2].split()
         if(attributes[0] is "H"):
             del(attributes[0])
-            h_images.append(attributes)
+            slides.append(attributes)
         else:
             del(attributes[0])
             v_images.append(attributes)
+            
+    for i in range(0, len(v_images), 2):
+        tags = []
+        for j in v_images[i][1]:
+            tags.append(j)
+        for j in v_images[i+1][1]:
+            if j not in tags:
+                tags.append(j)
                 
-    return (v_images, h_images)
-                 
+        slides.append([len(tags), tags, 2, [i, i+1]])
+    return v_images
+     
+            
+            
 def coupling_V (v_images): 
   values = []          
-  for i in range (len(v_images)):
-     c = [a for a, b in zip(v_images[0][1],v_images[i][1]) if a==b]
+  for i in range (1,len(v_images)):
+     c = [a for a, b in zip(v_images[0][1],v_images[i][1]) if a!=b]
      values.append(len(c))
-  index = np.argmin(values)
+  index = np.argmax(values)
+  cop = [a for a, b in zip(v_images[0][1],v_images[index][1]) if a!=b] 
+  couple = [len(cop),cop,2,v_images[0][3],v_images[index-1][3]]
   del v_images[0]
   del v_images[index-1]
-  couple = [v_images[0],v_images[index]]
   return v_images, couple
 
 
 couples = []
-v_images, h_images = build_slides(input)
+v_images = build_slides(input)
 while len(v_images) > 3:
   v_images, couple = coupling_V(v_images)
-  couples.append(couple)
-couple = [v_images[0],v_images[1]]
+  couples.append(couple)  
+cop = [a for a, b in zip(v_images[0][1],v_images[1][1]) if a==b]
+couple = [len(cop),cop,2,v_images[0][3],v_images[1][3]]  
 couples.append(couple)
-
