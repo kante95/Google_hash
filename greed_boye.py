@@ -6,6 +6,7 @@ Created on Thu Feb 28 18:17:18 2019
 """
 
 import numpy as np
+import random
 
 def weight(tags1, tags2):
     counter = 0
@@ -22,7 +23,7 @@ def weight(tags1, tags2):
     return int(m)
 
 def build_slides(input):
-    file = open("c_memorable_moments.txt")
+    file = open(input)
     
     # slides[0] = number of tags
     # slides[1] = tags
@@ -60,4 +61,9 @@ def build_slides(input):
                 tags.append(j)
                 
         slides.append([len(tags), tags, 2, [i, i+1]])
-    
+    return slides
+
+s = build_slides("c_memorable_moments.txt")
+path = []
+start = random.randrange(len(s))
+path.append(start)
