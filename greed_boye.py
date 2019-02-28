@@ -62,6 +62,8 @@ def build_slides(input):
 s = build_slides("c_memorable_moments.txt")
 nodes = []
 
+print(s)
+
 counter = 0
 for i in s:
     i.append(counter)
@@ -100,13 +102,14 @@ while(True):
             largest_index = weights[i][1]
     
     start = largest_index
-    path.append(s[largest_index][4])
+    path.append(s[largest_index][3])
     for i in range(len(nodes)):
         if(nodes[i][4] is largest_index):
             del(nodes[i])
             break
     sum_weights += largest
-    print(len(nodes))
+    #print(len(nodes))
     
 print(path)
 print(sum_weights)
+
