@@ -59,16 +59,14 @@ def build_slides(input):
         slides.append([len(tags), tags, 2, [i, i+1]])
     return slides
 
-s = build_slides("a_example.txt")
+s = build_slides("c_memorable_moments.txt")
 nodes = []
 
 counter = 0
 for i in s:
-    counter += 1
     i.append(counter)
     nodes.append(i)
-    
-print(nodes)
+    counter += 1
 
 path = []
 
@@ -84,10 +82,12 @@ while(True):
     
     if(len(nodes) > 2*sample_size):
         l = random.sample(nodes, sample_size)
+    else:
+        l = nodes
     
     for i in range(len(l)):
         w = weight(s[start][1], l[i][1])
-        weights.append([w, l[i][3]])
+        weights.append([w, l[i][4]])
         
     if len(weights) is 0:
         break
@@ -100,8 +100,11 @@ while(True):
             largest_index = weights[i][1]
     
     start = largest_index
-    path.append(nodes[start][3])
-    del(nodes[start])
+    path.append(s[largest_index][4])
+    for i in range(len(nodes)):
+        if(nodes[i][4] is largest_index):
+            del(nodes[i])
+            break
     sum_weights += largest
     print(len(nodes))
     

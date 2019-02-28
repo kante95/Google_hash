@@ -23,14 +23,14 @@ def weight(tags1, tags2):
     return int(m)
 
 def build_slides(input):
-    file = open("c_memorable_moments.txt")
+    file = open("a_example.txt")
     
     # slides[0] = number of tags
     # slides[1] = tags
     # slides[2] = number of images
     # slides[3] = image ids
     
-    slides = []
+    h_images = []
     v_images = []
     
     counter = 0
@@ -47,24 +47,13 @@ def build_slides(input):
         attributes[2] = attributes[2].split()
         if(attributes[0] is "H"):
             del(attributes[0])
-            slides.append(attributes)
+            h_images.append(attributes)
         else:
             del(attributes[0])
             v_images.append(attributes)
-            
-    for i in range(0, len(v_images), 2):
-        tags = []
-        for j in v_images[i][1]:
-            tags.append(j)
-        for j in v_images[i+1][1]:
-            if j not in tags:
-                tags.append(j)
                 
-        slides.append([len(tags), tags, 2, [i, i+1]])
-    return v_images
-     
-            
-            
+    return (v_images, h_images)
+                 
 def coupling_V (v_images): 
   values = []          
   for i in range (len(v_images)):
@@ -78,7 +67,7 @@ def coupling_V (v_images):
 
 
 couples = []
-v_images = build_slides(input)
+v_images, h_images = build_slides(input)
 while len(v_images) > 3:
   v_images, couple = coupling_V(v_images)
   couples.append(couple)
