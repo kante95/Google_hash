@@ -96,14 +96,15 @@ def pair_V():
   del v_images[0]
   del v_images[index - 1]
   couple = [v_images[0],v_images[index]]
+  print(len(v_images))
   return v_images, couple
 
 
 couples = []
 
-for i in range ():
-  v_images, couple = pair_V()
-  couples.append(couple)
+#for i in range ():
+v_images, couple = pair_V()
+  #couples.append(couple)
 
 
 
