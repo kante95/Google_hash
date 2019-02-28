@@ -37,7 +37,7 @@ def build_slides(input):
         line = line.strip()
         attributes = line.split(None, 2)
         attributes.append(1)
-        attributes.append([counter])
+        attributes.append([counter-1])
         counter += 1
         attributes[1] = int(attributes[1])
         attributes[2] = attributes[2].split()
@@ -56,13 +56,12 @@ def build_slides(input):
             if j not in tags:
                 tags.append(j)
                 
-        slides.append([len(tags), tags, 2, [i, i+1]])
+        slides.append([len(tags), tags, 2, [v_images[i][3][0], v_images[i+1][3][0]]])
     return slides
 
-s = build_slides("c_memorable_moments.txt")
+inpu = "b_lovely_landscapes"
+s = build_slides(inpu+".txt")
 nodes = []
-
-print(s)
 
 counter = 0
 for i in s:
@@ -108,8 +107,14 @@ while(True):
             del(nodes[i])
             break
     sum_weights += largest
-    #print(len(nodes))
+    print(len(nodes))
     
-print(path)
-print(sum_weights)
+f = open(inpu+"_solution.txt", "w")
+f.write(str(len(s)))
+f.write("\n")
+for i in path:
+    for j in i:
+        f.write(str(j)+" ")
+    f.write("\n")
 
+f.close()
