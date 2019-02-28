@@ -72,23 +72,16 @@ def coupling_V (v_images):
      values.append(len(c))
   index = np.argmin(values)
   del v_images[0]
-  del v_images[index - 1]
+  del v_images[index-1]
   couple = [v_images[0],v_images[index]]
   return v_images, couple
 
 
 couples = []
 v_images = build_slides(input)
-while len(v_images) > 2:
+while len(v_images) > 3:
   v_images, couple = coupling_V(v_images)
   couples.append(couple)
-print(len(couples))
+couple = [v_images[0],v_images[1]]
+couples.append(couple)
 
-
-
-#c = [1,2,3,4]
-#c = np.asarray(c)
-#d = [4,5,6,7]
-#d = np.asarray(d)
-
-#print(c & d)
