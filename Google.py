@@ -61,51 +61,28 @@ def build_slides(input):
                 tags.append(j)
                 
         slides.append([len(tags), tags, 2, [i, i+1]])
-
-
-def pair_V():
-  file = open("c_memorable_moments.txt")   
-  
-  slides = []
-  v_images = []
-  
-  counter = 0
-  for line in file:
-        if(counter is 0):
-            counter += 1
-            continue
-        line = line.strip()
-        attributes = line.split(None, 2)
-        attributes.append(1)
-        attributes.append([counter])
-        counter += 1
-        attributes[1] = int(attributes[1])
-        attributes[2] = attributes[2].split()
-        if(attributes[0] is "H"):
-            del(attributes[0])
-            slides.append(attributes)
-        else:
-            del(attributes[0])
-            v_images.append(attributes)
-  values = []
+    return v_images
+     
+            
+            
+def coupling_V (v_images): 
+  values = []          
   for i in range (len(v_images)):
      c = [a for a, b in zip(v_images[0][1],v_images[i][1]) if a==b]
      values.append(len(c))
   index = np.argmin(values)
-  print(index) 
   del v_images[0]
   del v_images[index - 1]
   couple = [v_images[0],v_images[index]]
-  print(len(v_images))
   return v_images, couple
 
 
 couples = []
-
-#for i in range ():
-v_images, couple = pair_V()
-  #couples.append(couple)
-
+v_images = build_slides(input)
+while len(v_images) > 2:
+  v_images, couple = coupling_V(v_images)
+  couples.append(couple)
+print(len(couples))
 
 
 
