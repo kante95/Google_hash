@@ -66,23 +66,32 @@ def build_slides(input):
             
             
 def coupling_V (v_images): 
-  values = []          
+  values = []         
   for i in range (1,len(v_images)):
-     c = [a for a, b in zip(v_images[0][1],v_images[i][1]) if a!=b]
+     c =  [a for a, b in zip(v_images[0][1],v_images[i][1]) if a==b]
      values.append(len(c))
-  index = np.argmax(values)
-  cop = [a for a, b in zip(v_images[0][1],v_images[index][1]) if a!=b] 
-  couple = [len(cop),cop,2,v_images[0][3],v_images[index-1][3]]
+  index = np.argmin(values) + 1 # smallest amount of elemets in common
+  cop_1 = [a for a, b in zip(v_images[0][1],v_images[index][1]) if a!=b]
+  cop_2 = [a for a, b in zip(v_images[index][1],v_images[0][1]) if a!=b]
+  cop_3 =  [a for a, b in zip(v_images[0][1],v_images[index][1]) if a==b]
+  cop = cop_1 + cop_2 + cop_3
+  #print(cop)
+  couple = [len(cop),cop,2,v_images[0][3],v_images[index][3]]
   del v_images[0]
-  del v_images[index-1]
+  del v_images[index - 1]
   return v_images, couple
-
 
 couples = []
 v_images = build_slides(input)
 while len(v_images) > 3:
   v_images, couple = coupling_V(v_images)
   couples.append(couple)  
-cop = [a for a, b in zip(v_images[0][1],v_images[1][1]) if a==b]
-couple = [len(cop),cop,2,v_images[0][3],v_images[1][3]]  
-couples.append(couple)
+cop_1 = [a for a, b in zip(v_images[0][1],v_images[1][1]) if a==b]
+cop_2 = [a for a, b in zip(v_images[0][1],v_images[1][1]) if a!=b]
+cop_3 = [a for a, b in zip(v_images[1][1],v_images[0][1]) if a!=b]
+cop = cop_1 + cop_2 + cop_3
+couple = [len(cop),cop,2,v_images[0][3],v_images[1][3]] 
+ 
+#couples.append(couple)
+#for i in range (len(couples)):
+#    print(couples[i][0])
